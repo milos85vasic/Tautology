@@ -4,7 +4,13 @@ import net.milosvasic.tautology.expression.Expression
 
 class Tautology {
 
-    fun evalute(e: Expression): Boolean {
+    var expressions = mutableListOf<Expression>()
+
+    fun evalute(): Boolean {
+        expressions.forEach {
+            expression ->
+            
+        }
         return true
     }
 

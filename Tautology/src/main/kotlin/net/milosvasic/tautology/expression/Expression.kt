@@ -1,7 +1,5 @@
 package net.milosvasic.tautology.expression
 
-class Expression {
+import net.milosvasic.tautology.operator.Operator
 
-    
-
-}
+abstract class Expression(val operator: Operator)
