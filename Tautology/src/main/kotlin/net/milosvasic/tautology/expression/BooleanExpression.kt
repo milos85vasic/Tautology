@@ -10,7 +10,7 @@ class BooleanExpression(val value: ExpressionValue<Boolean>, right: Operator.Rig
                 is Operator.NOT -> {
                     return !value.getValue()
                 }
-                else -> throw IllegalArgumentException("Unsupported operator: ${left::class.simpleName}")
+                else -> throw IllegalArgumentException("Unsupported operator: '${left.value}'")
             }
         }
         return value.getValue()
