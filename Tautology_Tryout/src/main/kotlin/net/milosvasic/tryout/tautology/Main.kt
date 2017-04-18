@@ -12,7 +12,7 @@ fun main(args: Array<String>){
 
     val simpleBoolean = BooleanExpression(object : ExpressionValue<Boolean> {
         override fun get(): Boolean {
-            return true
+            return false
         }
     })
 

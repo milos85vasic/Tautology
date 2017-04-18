@@ -12,7 +12,9 @@ class Tautology {
             expression ->
             when (expression) {
                 is BooleanExpression -> {
-
+                    if (expression.operator == null) {
+                        return expression.value.get()
+                    }
                 }
                 else -> throw IllegalArgumentException("Unsupported expression type: ${expression::class.simpleName}")
             }
