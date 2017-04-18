@@ -2,7 +2,6 @@ package net.milosvasic.tautology
 
 import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.Expression
-import net.milosvasic.tautology.operator.Operator
 
 class Tautology {
 
@@ -13,15 +12,12 @@ class Tautology {
             expression ->
             when (expression) {
                 is BooleanExpression -> {
-                    if (expression.operator == null) {
-                        return expression.value.get()
-                    } else {
-                        when (expression.operator) {
-                            is Operator.NOT -> {
-                                return !expression.value.get()
-                            }
-                            else -> throw IllegalArgumentException("Unsupported operator: ${expression.operator::class.simpleName}")
+                    if (expression.right != null) {
+                        when (expression.right) {
+                            else -> throw IllegalArgumentException("Unsupported operator: ${expression.right::class.simpleName}")
                         }
+                    } else {
+                        return expression.getValue()
                     }
                 }
                 else -> throw IllegalArgumentException("Unsupported expression type: ${expression::class.simpleName}")

@@ -2,11 +2,15 @@ package net.milosvasic.tautology.operator
 
 abstract class Operator(var value: String) {
 
-    class AND : Operator("&&")
+    abstract class LeftOperator(value: String) : Operator(value)
 
-    class OR : Operator("||")
+    abstract class RightOperator(value: String) : Operator(value)
 
-    class NOT : Operator("!")
+    class AND : RightOperator("&&")
+
+    class OR : RightOperator("||")
+
+    class NOT : LeftOperator("!")
 
 }
 
