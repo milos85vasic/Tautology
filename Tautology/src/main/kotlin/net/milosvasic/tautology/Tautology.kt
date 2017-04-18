@@ -8,6 +8,9 @@ class Tautology {
     var expressions = mutableListOf<Expression>()
 
     fun evaluate(): Boolean {
+        if (expressions.last().right != null) {
+            throw IllegalArgumentException("Expression not closed properly after: '${expressions.last().right?.value}'")
+        }
         expressions.forEach {
             expression ->
             when (expression) {
