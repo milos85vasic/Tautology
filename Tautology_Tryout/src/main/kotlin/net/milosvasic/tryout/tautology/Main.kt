@@ -26,6 +26,7 @@ fun main(args: Array<String>) {
     val simpleBoolean = BooleanExpression(falseBooleanExpressionValue)
     val simpleBoolean2 = BooleanExpression(trueBooleanExpressionValue)
     val simpleBooleanWithNegation = BooleanExpression(falseBooleanExpressionValue, null, Operator.NOT())
+    val simpleBooleanWithOrOperation = BooleanExpression(falseBooleanExpressionValue, Operator.OR())
     val simpleBooleanWithAndOperation = BooleanExpression(falseBooleanExpressionValue, Operator.AND())
 
     // false == false
@@ -42,6 +43,12 @@ fun main(args: Array<String>) {
     tautology.expressions.add(simpleBooleanWithAndOperation)
     tautology.expressions.add(simpleBoolean2)
     logger.v("", "Evaluating simple boolean with '&&' operation [ ${tautology.evaluate()} ]")
+
+    // false || true == true
+    tautology.expressions.clear()
+    tautology.expressions.add(simpleBooleanWithOrOperation)
+    tautology.expressions.add(simpleBoolean2)
+    logger.v("", "Evaluating simple boolean with '||' operation [ ${tautology.evaluate()} ]")
 
 }
 

@@ -23,7 +23,11 @@ class Tautology {
                                     return false
                                 }
                             }
-                            // TODO: Cover OR case.
+                            is Operator.OR -> {
+                                if (expression.getValue()) {
+                                    return true
+                                }
+                            }
                             else -> throw IllegalArgumentException("Unsupported operator: '${expression.right.value}'")
                         }
                     } else {
