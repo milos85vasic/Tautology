@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
     tautology.expressions.clear()
     tautology.expressions.add(simpleBooleanWithAndOperation)
     tautology.expressions.add(simpleBoolean2)
-    logger.v("", "Evaluating simple boolean with 'AND' operation [ ${tautology.evaluate()} ]")
+    logger.v("", "Evaluating simple boolean with '&&' operation [ ${tautology.evaluate()} ]")
 
 }
 

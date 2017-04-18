@@ -2,6 +2,7 @@ package net.milosvasic.tautology
 
 import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.Expression
+import net.milosvasic.tautology.operator.Operator
 
 class Tautology {
 
@@ -17,6 +18,12 @@ class Tautology {
                 is BooleanExpression -> {
                     if (expression.right != null) {
                         when (expression.right) {
+                            is Operator.AND -> {
+                                if (!expression.getValue()) {
+                                    return false
+                                }
+                            }
+                            // TODO: Cover OR case.
                             else -> throw IllegalArgumentException("Unsupported operator: '${expression.right.value}'")
                         }
                     } else {
