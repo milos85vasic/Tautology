@@ -18,7 +18,7 @@ fun main(args: Array<String>){
 
     tautology.expressions.add(simpleBoolean)
 
-    logger.v("", "Evaluating simple boolean [ ${tautology.evalute()} ]")
+    logger.v("", "Evaluating simple boolean [ ${tautology.evaluate()} ]")
 
 }
 

@@ -7,7 +7,7 @@ class Tautology {
 
     var expressions = mutableListOf<Expression>()
 
-    fun evalute(): Boolean {
+    fun evaluate(): Boolean {
         expressions.forEach {
             expression ->
             when (expression) {
