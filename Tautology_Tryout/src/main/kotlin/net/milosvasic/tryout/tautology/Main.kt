@@ -50,5 +50,17 @@ fun main(args: Array<String>) {
     tautology.expressions.add(simpleBoolean2)
     logger.v("", "Evaluating simple boolean with '||' operation [ ${tautology.evaluate()} ]")
 
+    // false && false == false
+    tautology.expressions.clear()
+    tautology.expressions.add(simpleBooleanWithAndOperation)
+    tautology.expressions.add(simpleBoolean)
+    logger.v("", "Evaluating 'false && false' [ ${tautology.evaluate()} ]")
+
+    // false || false == false
+    tautology.expressions.clear()
+    tautology.expressions.add(simpleBooleanWithOrOperation)
+    tautology.expressions.add(simpleBoolean)
+    logger.v("", "Evaluating 'false || false' [ ${tautology.evaluate()} ]")
+
 }
 
