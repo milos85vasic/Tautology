@@ -1,6 +1,7 @@
 package net.milosvasic.tautology
 
 import net.milosvasic.tautology.expression.BooleanExpression
+import net.milosvasic.tautology.expression.Expression
 import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.operator.Operator
 import org.junit.Assert
@@ -12,6 +13,8 @@ class TautologyTest {
 
     @Test
     fun testTautology(){
+        val expressions = mutableListOf<Expression>()
+
         val falseBooleanExpressionValue = object : ExpressionValue<Boolean> {
             override fun getValue(): Boolean {
                 return false
@@ -31,37 +34,37 @@ class TautologyTest {
         val simpleBooleanWithAndOperation = BooleanExpression(falseBooleanExpressionValue, Operator.AND())
 
         // false == false
-        tautology.expressions.add(simpleBoolean)
-        Assert.assertFalse(tautology.evaluate())
+        expressions.add(simpleBoolean)
+        Assert.assertFalse(tautology.evaluate(expressions))
 
         // !false == true
-        tautology.expressions.clear()
-        tautology.expressions.add(simpleBooleanWithNegation)
-        Assert.assertTrue(tautology.evaluate())
+        expressions.clear()
+        expressions.add(simpleBooleanWithNegation)
+        Assert.assertTrue(tautology.evaluate(expressions))
 
         // false && true == false
-        tautology.expressions.clear()
-        tautology.expressions.add(simpleBooleanWithAndOperation)
-        tautology.expressions.add(simpleBoolean2)
-        Assert.assertFalse(tautology.evaluate())
+        expressions.clear()
+        expressions.add(simpleBooleanWithAndOperation)
+        expressions.add(simpleBoolean2)
+        Assert.assertFalse(tautology.evaluate(expressions))
 
         // false || true == true
-        tautology.expressions.clear()
-        tautology.expressions.add(simpleBooleanWithOrOperation)
-        tautology.expressions.add(simpleBoolean2)
-        Assert.assertTrue(tautology.evaluate())
+        expressions.clear()
+        expressions.add(simpleBooleanWithOrOperation)
+        expressions.add(simpleBoolean2)
+        Assert.assertTrue(tautology.evaluate(expressions))
 
         // false && false == false
-        tautology.expressions.clear()
-        tautology.expressions.add(simpleBooleanWithAndOperation)
-        tautology.expressions.add(simpleBoolean)
-        Assert.assertFalse(tautology.evaluate())
+        expressions.clear()
+        expressions.add(simpleBooleanWithAndOperation)
+        expressions.add(simpleBoolean)
+        Assert.assertFalse(tautology.evaluate(expressions))
 
         // false || false == false
-        tautology.expressions.clear()
-        tautology.expressions.add(simpleBooleanWithOrOperation)
-        tautology.expressions.add(simpleBoolean)
-        Assert.assertFalse(tautology.evaluate())
+        expressions.clear()
+        expressions.add(simpleBooleanWithOrOperation)
+        expressions.add(simpleBoolean)
+        Assert.assertFalse(tautology.evaluate(expressions))
 
     }
 

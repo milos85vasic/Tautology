@@ -6,9 +6,7 @@ import net.milosvasic.tautology.operator.Operator
 
 class Tautology {
 
-    var expressions = mutableListOf<Expression>()
-
-    fun evaluate(): Boolean {
+    fun evaluate(expressions: List<Expression>): Boolean {
         if (expressions.last().right != null) {
             throw IllegalArgumentException("Expression not closed properly after: '${expressions.last().right?.value}'")
         }
