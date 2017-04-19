@@ -1,6 +1,5 @@
 package net.milosvasic.tautology
 
-import net.milosvasic.logger.SimpleLogger
 import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.operator.Operator
