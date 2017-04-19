@@ -31,12 +31,15 @@ class ExpressionBuilder {
 
     override fun toString(): String {
         val stringBuilder = StringBuilder()
-        expressions.forEach {
-            expression ->
+        expressions.forEachIndexed {
+            index, expression ->
             if (expression.left != null) {
                 stringBuilder.append(expression.left.value)
             }
             if (expression is ExpressionValue<*>) {
+                if (index > 0) {
+                    stringBuilder.append(" ")
+                }
                 stringBuilder.append("${expression.getValue()}")
             }
             if (expression.right != null) {
