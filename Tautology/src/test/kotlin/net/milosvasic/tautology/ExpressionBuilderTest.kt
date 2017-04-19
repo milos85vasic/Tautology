@@ -40,9 +40,10 @@ class ExpressionBuilderTest {
                             return b == c
                         }
                     })
-            println(builder)
+
+            println("[ $builder ] expects: $result")
+
             val expressions = builder.build()
-            Assert.assertTrue(tautology.evaluate(expressions))
             if (result) {
                 Assert.assertTrue(tautology.evaluate(expressions))
             } else {

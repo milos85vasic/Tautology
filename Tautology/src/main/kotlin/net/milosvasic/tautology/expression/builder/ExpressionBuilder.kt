@@ -8,20 +8,16 @@ import net.milosvasic.tautology.operator.Operator
 class ExpressionBuilder {
 
     private val expressions = mutableListOf<Expression>()
-    private var lastLeftOperator: Operator.LeftOperator? = null
-    private var lastRightOperator: Operator.RightOperator? = null
-    private var lastAppendedValue: ExpressionValue<Boolean>? = null
 
     fun append(value: ExpressionValue<Boolean>): ExpressionBuilder {
-        if (lastAppendedValue != null) {
-            var rightOperator = lastRightOperator
-            if (rightOperator == null) {
-                rightOperator = Operator.AND()
+        if (!expressions.isEmpty() && expressions.last().right == null) {
+            if (expressions.last() is BooleanExpression) {
+                val lastItem = expressions.last() as BooleanExpression
+                val updated = BooleanExpression(lastItem.value, Operator.AND())
+                expressions[expressions.lastIndex] = updated
             }
-            val expression = BooleanExpression(value, rightOperator, lastLeftOperator)
-            expressions.add(expression)
         }
-        lastAppendedValue = value
+        expressions.add(BooleanExpression(value))
         return this
     }
 
