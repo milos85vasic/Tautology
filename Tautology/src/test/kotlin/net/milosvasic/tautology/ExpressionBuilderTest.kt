@@ -23,8 +23,8 @@ class ExpressionBuilderTest {
     }
 
     @Test
-    fun testExpressionBuilder() {
-        logger.d("", "Test expression builder [ START ]")
+    fun simpleAppend() {
+        logger.d("", "Simple append [ START ]")
         dataSets.forEach {
             (a, b, c, result) ->
             val builder = ExpressionBuilder()
@@ -53,12 +53,12 @@ class ExpressionBuilderTest {
                 Assert.assertFalse(tautology.evaluate(expressions))
             }
         }
-        logger.d("", "Test expression builder [ END ]\n")
+        logger.d("", "Simple append [ END ]\n")
     }
 
     @Test
-    fun testExpressionBuilderShortAppend() {
-        logger.d("", "Test expression builder - short append [ START ]")
+    fun simpleAppendWithShortAppending() {
+        logger.d("", "Simple append with short appending [ START ]")
         dataSets.forEach {
             (a, b, c, result) ->
             val builder = ExpressionBuilder()
@@ -75,7 +75,7 @@ class ExpressionBuilderTest {
                 Assert.assertFalse(tautology.evaluate(expressions))
             }
         }
-        logger.d("", "Test expression builder - short append [ END ]\n")
+        logger.d("", "Simple append with short appending [ END ]\n")
     }
 
 }
