@@ -9,6 +9,14 @@ class ExpressionBuilder {
 
     private val expressions = mutableListOf<Expression>()
 
+    fun append(value: Boolean): ExpressionBuilder {
+        return append(object : ExpressionValue<Boolean> {
+            override fun getValue(): Boolean {
+                return value
+            }
+        })
+    }
+
     fun append(value: ExpressionValue<Boolean>): ExpressionBuilder {
         if (!expressions.isEmpty() && expressions.last().right == null) {
             if (expressions.last() is BooleanExpression) {

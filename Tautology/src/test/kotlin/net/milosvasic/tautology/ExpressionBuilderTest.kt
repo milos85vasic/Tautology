@@ -1,5 +1,6 @@
 package net.milosvasic.tautology
 
+import net.milosvasic.logger.SimpleLogger
 import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.expression.builder.ExpressionBuilder
 import org.junit.Assert
@@ -9,6 +10,7 @@ import org.junit.Test
 class ExpressionBuilderTest {
 
     val tautology = Tautology()
+    val logger = SimpleLogger()
     val dataSets = mutableListOf<DataSet>()
 
     @Before
@@ -22,6 +24,7 @@ class ExpressionBuilderTest {
 
     @Test
     fun testExpressionBuilder() {
+        logger.d("", "Test expression builder [ START ]")
         dataSets.forEach {
             (a, b, c, result) ->
             val builder = ExpressionBuilder()
@@ -41,7 +44,7 @@ class ExpressionBuilderTest {
                         }
                     })
 
-            println("[ $builder ] expects: $result")
+            logger.v("", "[ $builder ] expects: $result")
 
             val expressions = builder.build()
             if (result) {
@@ -50,6 +53,29 @@ class ExpressionBuilderTest {
                 Assert.assertFalse(tautology.evaluate(expressions))
             }
         }
+        logger.d("", "Test expression builder [ END ]\n")
+    }
+
+    @Test
+    fun testExpressionBuilderShortAppend() {
+        logger.d("", "Test expression builder - short append [ START ]")
+        dataSets.forEach {
+            (a, b, c, result) ->
+            val builder = ExpressionBuilder()
+                    .append(a == b)
+                    .append(a == c)
+                    .append(b == c)
+
+            logger.v("", "[ $builder ] expects: $result")
+
+            val expressions = builder.build()
+            if (result) {
+                Assert.assertTrue(tautology.evaluate(expressions))
+            } else {
+                Assert.assertFalse(tautology.evaluate(expressions))
+            }
+        }
+        logger.d("", "Test expression builder - short append [ END ]\n")
     }
 
 }
