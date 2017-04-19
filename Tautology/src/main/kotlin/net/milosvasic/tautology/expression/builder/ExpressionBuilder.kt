@@ -1,6 +1,5 @@
 package net.milosvasic.tautology.expression.builder
 
-import net.milosvasic.logger.SimpleLogger
 import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.Expression
 import net.milosvasic.tautology.expression.ExpressionValue
@@ -8,6 +7,7 @@ import net.milosvasic.tautology.operator.Operator
 
 class ExpressionBuilder {
 
+    private val expressions = mutableListOf<Expression>()
     private var lastLeftOperator: Operator.LeftOperator? = null
     private var lastRightOperator: Operator.RightOperator? = null
     private var lastAppendedValue: ExpressionValue<Boolean>? = null
@@ -19,19 +19,33 @@ class ExpressionBuilder {
                 rightOperator = Operator.AND()
             }
             val expression = BooleanExpression(value, rightOperator, lastLeftOperator)
+            expressions.add(expression)
         }
         lastAppendedValue = value
         return this
     }
 
     fun build(): List<Expression> {
-        val expressions = mutableListOf<Expression>()
-
         return expressions
     }
 
     override fun toString(): String {
-        return "- - -" // TODO: Define this
+        val stringBuilder = StringBuilder()
+        expressions.forEach {
+            expression ->
+            if (expression.left != null) {
+                stringBuilder.append(expression.left.value)
+            }
+            if (expression is ExpressionValue<*>) {
+                stringBuilder.append("${expression.getValue()}")
+            }
+            if (expression.right != null) {
+                stringBuilder
+                        .append(" ")
+                        .append(expression.right.value)
+            }
+        }
+        return stringBuilder.toString()
     }
 
 }
