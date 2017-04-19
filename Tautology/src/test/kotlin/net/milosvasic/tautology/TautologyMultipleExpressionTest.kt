@@ -22,6 +22,8 @@ class TautologyMultipleExpressionTest {
         dataSets.add(DataSet(1, 2, 3, false))
         // ((3 == 2) || (3 == 3)) && (3 >= 1)
         dataSets.add(DataSet(3, 2, 3, true))
+        // ((3 == 4) || (3 == 3)) && (3 >= 1)
+        dataSets.add(DataSet(3, 4, 3, true))
     }
 
     @Test
