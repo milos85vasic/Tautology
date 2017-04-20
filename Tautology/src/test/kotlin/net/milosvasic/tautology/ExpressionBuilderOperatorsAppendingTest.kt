@@ -48,7 +48,7 @@ class ExpressionBuilderOperatorsAppendingTest {
     @Test
     fun testOperatorsAppendingWithMultipleExpression() {
         dataSets.forEach {
-            (a, b, c, result) ->
+            (a, b, c, expected) ->
             val builder = ExpressionBuilder()
                     .append(a == b)
                     .append(Operator.OR())
@@ -64,12 +64,14 @@ class ExpressionBuilderOperatorsAppendingTest {
                     )
 
             val expressions = builder.build()
+            val result = tautology.evaluate(expressions)
+            logger.v("", "[ $builder ] expects: $expected, result: $result")
+
 //            if (result) {
 //                Assert.assertTrue(tautology.evaluate(expressions))
 //            } else {
 //                Assert.assertFalse(tautology.evaluate(expressions))
 //            }
-            tautology.evaluate(expressions)
         }
     }
 

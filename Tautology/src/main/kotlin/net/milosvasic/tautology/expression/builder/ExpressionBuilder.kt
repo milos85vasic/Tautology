@@ -68,7 +68,7 @@ class ExpressionBuilder {
         val multiple = MultipleExpression()
         multiple.expressions.addAll(builder.build())
         connectWithOperator()
-        expressions.add(multiple)
+        expressions.add(BooleanExpression(multiple))
         return this
     }
 
