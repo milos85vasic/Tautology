@@ -30,12 +30,39 @@ class ExpressionBuilder {
     }
 
     fun append(operator: Operator): ExpressionBuilder {
+        if (expressions.isEmpty()) {
+            throw IllegalStateException("No expressions appended.")
+        }
         when (operator) {
             is Operator.RightOperator -> {
-                
+                if (expressions.last() is BooleanExpression) {
+                    val lastItem = expressions.last() as BooleanExpression
+                    if (lastItem.right != null) {
+                        val msg = StringBuilder()
+                                .append("Couldn't apply operator '${operator.value}'.")
+                                .append("Expression already has assigned operator '${lastItem.right.value}'.")
+                                .toString()
+                        throw IllegalStateException(msg)
+                    } else {
+                        val updated = BooleanExpression(lastItem.value, operator)
+                        expressions[expressions.lastIndex] = updated
+                    }
+                }
             }
             is Operator.LeftOperator -> {
-
+                if (expressions.last() is BooleanExpression) {
+                    val lastItem = expressions.last() as BooleanExpression
+                    if (lastItem.left != null) {
+                        val msg = StringBuilder()
+                                .append("Couldn't apply operator '${operator.value}'.")
+                                .append("Expression already has assigned operator '${lastItem.left.value}'.")
+                                .toString()
+                        throw IllegalStateException(msg)
+                    } else {
+                        val updated = BooleanExpression(lastItem.value, lastItem.right, operator)
+                        expressions[expressions.lastIndex] = updated
+                    }
+                }
             }
             else -> IllegalArgumentException("Unsupported operator: '${operator.value}'")
         }
