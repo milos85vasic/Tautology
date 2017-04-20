@@ -29,6 +29,19 @@ class ExpressionBuilder {
         return this
     }
 
+    fun append(operator: Operator): ExpressionBuilder {
+        when (operator) {
+            is Operator.RightOperator -> {
+                
+            }
+            is Operator.LeftOperator -> {
+
+            }
+            else -> IllegalArgumentException("Unsupported operator: '${operator.value}'")
+        }
+        return this
+    }
+
     fun build(): List<Expression> {
         return expressions
     }
