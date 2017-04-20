@@ -3,6 +3,7 @@ package net.milosvasic.tautology.expression.builder
 import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.Expression
 import net.milosvasic.tautology.expression.ExpressionValue
+import net.milosvasic.tautology.expression.MultipleExpression
 import net.milosvasic.tautology.operator.Operator
 
 class ExpressionBuilder {
@@ -66,6 +67,22 @@ class ExpressionBuilder {
             }
             else -> IllegalArgumentException("Unsupported operator: '${operator.value}'")
         }
+        return this
+    }
+
+    fun append(builder: ExpressionBuilder): ExpressionBuilder {
+        val multiple = MultipleExpression()
+        multiple.expressions.addAll(builder.build())
+        /*
+        if (!expressions.isEmpty() && expressions.last().right == null) {
+            if (expressions.last() is BooleanExpression) {
+                val lastItem = expressions.last() as BooleanExpression
+                val updated = BooleanExpression(lastItem.value, Operator.AND())
+                expressions[expressions.lastIndex] = updated
+            }
+        }
+        expressions.add(BooleanExpression(value))
+        * */
         return this
     }
 
