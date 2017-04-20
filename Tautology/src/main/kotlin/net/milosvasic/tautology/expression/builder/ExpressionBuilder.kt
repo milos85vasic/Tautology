@@ -19,13 +19,7 @@ class ExpressionBuilder {
     }
 
     fun append(value: ExpressionValue<Boolean>): ExpressionBuilder {
-        if (!expressions.isEmpty() && expressions.last().right == null) {
-            if (expressions.last() is BooleanExpression) {
-                val lastItem = expressions.last() as BooleanExpression
-                val updated = BooleanExpression(lastItem.value, Operator.AND())
-                expressions[expressions.lastIndex] = updated
-            }
-        }
+        connectWithOperator()
         expressions.add(BooleanExpression(value))
         return this
     }
@@ -73,7 +67,12 @@ class ExpressionBuilder {
     fun append(builder: ExpressionBuilder): ExpressionBuilder {
         val multiple = MultipleExpression()
         multiple.expressions.addAll(builder.build())
-        /*
+        connectWithOperator()
+        expressions.add(multiple)
+        return this
+    }
+
+    private fun connectWithOperator() {
         if (!expressions.isEmpty() && expressions.last().right == null) {
             if (expressions.last() is BooleanExpression) {
                 val lastItem = expressions.last() as BooleanExpression
@@ -81,9 +80,6 @@ class ExpressionBuilder {
                 expressions[expressions.lastIndex] = updated
             }
         }
-        expressions.add(BooleanExpression(value))
-        * */
-        return this
     }
 
     fun build(): List<Expression> {
