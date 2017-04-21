@@ -72,6 +72,21 @@ class ExpressionBuilder {
         return this
     }
 
+    fun append(list: List<*>): ExpressionBuilder {
+        val multiple = MultipleExpression()
+        list.forEach {
+            item ->
+            if (item != null) {
+                if (item is Expression) {
+                    multiple.expressions.add(item)
+                } else throw IllegalArgumentException("Unsupported type: ${item::class.simpleName}")
+            } else throw IllegalArgumentException("Null item")
+        }
+        connectWithOperator()
+        expressions.add(BooleanExpression(multiple))
+        return this
+    }
+
     private fun connectWithOperator() {
         if (!expressions.isEmpty() && expressions.last().right == null) {
             if (expressions.last() is BooleanExpression) {
