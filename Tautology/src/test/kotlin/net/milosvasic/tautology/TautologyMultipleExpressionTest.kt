@@ -35,17 +35,17 @@ class TautologyMultipleExpressionTest {
 
             val expressions = mutableListOf<Expression>()
 
-            val abValue = object : ExpressionValue<Boolean> {
+            val abValue = object : ExpressionValue {
                 override fun getValue(): Boolean {
                     return a == b
                 }
             }
-            val acValue = object : ExpressionValue<Boolean> {
+            val acValue = object : ExpressionValue {
                 override fun getValue(): Boolean {
                     return a == c
                 }
             }
-            val caValue = object : ExpressionValue<Boolean> {
+            val caValue = object : ExpressionValue {
                 override fun getValue(): Boolean {
                     return c >= a
                 }

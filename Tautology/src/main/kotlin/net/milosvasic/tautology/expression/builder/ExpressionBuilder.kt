@@ -11,14 +11,14 @@ class ExpressionBuilder {
     private val expressions = mutableListOf<Expression>()
 
     fun append(value: Boolean): ExpressionBuilder {
-        return append(object : ExpressionValue<Boolean> {
+        return append(object : ExpressionValue {
             override fun getValue(): Boolean {
                 return value
             }
         })
     }
 
-    fun append(value: ExpressionValue<Boolean>): ExpressionBuilder {
+    fun append(value: ExpressionValue): ExpressionBuilder {
         connectWithOperator()
         expressions.add(BooleanExpression(value))
         return this
@@ -93,7 +93,7 @@ class ExpressionBuilder {
             if (expression.left != null) {
                 stringBuilder.append(expression.left.value)
             }
-            if (expression is ExpressionValue<*>) {
+            if (expression is ExpressionValue) {
                 if (index > 0) {
                     stringBuilder.append(" ")
                 }

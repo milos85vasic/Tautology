@@ -15,13 +15,13 @@ class TautologyTest {
     fun testTautology(){
         val expressions = mutableListOf<Expression>()
 
-        val falseBooleanExpressionValue = object : ExpressionValue<Boolean> {
+        val falseBooleanExpressionValue = object : ExpressionValue {
             override fun getValue(): Boolean {
                 return false
             }
         }
 
-        val trueBooleanExpressionValue = object : ExpressionValue<Boolean> {
+        val trueBooleanExpressionValue = object : ExpressionValue {
             override fun getValue(): Boolean {
                 return true
             }

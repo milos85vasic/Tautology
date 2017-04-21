@@ -1,7 +1,7 @@
 package net.milosvasic.tautology.expression
 
-interface ExpressionValue<out T> {
+interface ExpressionValue {
 
-    fun getValue(): T
+    fun getValue(): Boolean
 
 }

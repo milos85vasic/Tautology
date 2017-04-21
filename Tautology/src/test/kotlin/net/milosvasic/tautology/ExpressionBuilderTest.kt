@@ -28,17 +28,17 @@ class ExpressionBuilderTest {
         dataSets.forEach {
             (a, b, c, result) ->
             val builder = ExpressionBuilder()
-                    .append(object : ExpressionValue<Boolean> {
+                    .append(object : ExpressionValue {
                         override fun getValue(): Boolean {
                             return a == b
                         }
                     })
-                    .append(object : ExpressionValue<Boolean> {
+                    .append(object : ExpressionValue {
                         override fun getValue(): Boolean {
                             return a == c
                         }
                     })
-                    .append(object : ExpressionValue<Boolean> {
+                    .append(object : ExpressionValue {
                         override fun getValue(): Boolean {
                             return b == c
                         }

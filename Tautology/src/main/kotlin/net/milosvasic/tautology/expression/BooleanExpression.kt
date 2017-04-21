@@ -2,7 +2,7 @@ package net.milosvasic.tautology.expression
 
 import net.milosvasic.tautology.operator.Operator
 
-class BooleanExpression(val value: ExpressionValue<Boolean>, right: Operator.RightOperator? = null, left: Operator.LeftOperator? = null) : Expression(right, left), ExpressionValue<Boolean> {
+class BooleanExpression(val value: ExpressionValue, right: Operator.RightOperator? = null, left: Operator.LeftOperator? = null) : Expression(right, left), ExpressionValue {
 
     override fun getValue(): Boolean {
         if (left != null) {
