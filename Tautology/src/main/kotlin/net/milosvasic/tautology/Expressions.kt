@@ -7,7 +7,7 @@ import net.milosvasic.tautology.operator.Operator
 
 class Expressions(val items: List<Expression>)
 
-fun expression(vararg expressions: Any): Expressions {
+fun expression(vararg expressions: Any): Expressions { // TODO: Instead of any we must introduce 'marker' type.
     val builder = ExpressionBuilder()
     expressions.forEach {
         expression ->
