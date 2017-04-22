@@ -1,5 +1,6 @@
 package net.milosvasic.tautology.expression.builder
 
+import net.milosvasic.tautology.Expressions
 import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.Expression
 import net.milosvasic.tautology.expression.ExpressionValue
@@ -66,21 +67,19 @@ class ExpressionBuilder {
 
     fun append(builder: ExpressionBuilder): ExpressionBuilder {
         val multiple = MultipleExpression()
-        multiple.expressions.addAll(builder.build())
+        multiple.expressions.addAll(builder.build().items)
         connectWithOperator()
         expressions.add(BooleanExpression(multiple))
         return this
     }
 
-    fun append(list: List<*>): ExpressionBuilder {
+    fun append(toAppend: Expressions): ExpressionBuilder {
         val multiple = MultipleExpression()
-        list.forEach {
+        toAppend.items.forEach {
             item ->
-            if (item != null) {
-                if (item is Expression) {
-                    multiple.expressions.add(item)
-                } else throw IllegalArgumentException("Unsupported type: ${item::class.simpleName}")
-            } else throw IllegalArgumentException("Null item")
+            if (item is Expression) {
+                multiple.expressions.add(item)
+            } else throw IllegalArgumentException("Unsupported type: ${item::class.simpleName}")
         }
         connectWithOperator()
         expressions.add(BooleanExpression(multiple))
@@ -97,8 +96,8 @@ class ExpressionBuilder {
         }
     }
 
-    fun build(): List<Expression> {
-        return expressions
+    fun build(): Expressions {
+        return Expressions(expressions)
     }
 
     override fun toString(): String {

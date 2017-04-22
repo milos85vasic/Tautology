@@ -7,10 +7,14 @@ import net.milosvasic.tautology.operator.Operator
 class Tautology {
 
     fun evaluate(expressions: List<Expression>): Boolean {
-        if (expressions.last().right != null) {
-            throw IllegalArgumentException("Expression not closed properly after: '${expressions.last().right?.value}'")
+        return evaluate(Expressions(expressions))
+    }
+
+    fun evaluate(expressions: Expressions): Boolean {
+        if (expressions.items.last().right != null) {
+            throw IllegalArgumentException("Expression not closed properly after: '${expressions.items.last().right?.value}'")
         }
-        expressions.forEach {
+        expressions.items.forEach {
             expression ->
             when (expression) {
                 is BooleanExpression -> {

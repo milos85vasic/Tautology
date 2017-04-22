@@ -5,7 +5,9 @@ import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.expression.builder.ExpressionBuilder
 import net.milosvasic.tautology.operator.Operator
 
-fun expression(vararg expressions: Any): List<Expression> {
+class Expressions(val items: List<Expression>)
+
+fun expression(vararg expressions: Any): Expressions {
     val builder = ExpressionBuilder()
     expressions.forEach {
         expression ->
@@ -22,7 +24,7 @@ fun expression(vararg expressions: Any): List<Expression> {
             is ExpressionBuilder -> {
                 builder.append(expression)
             }
-            is List<*> -> {
+            is Expressions -> {
                 builder.append(expression)
             }
             else -> {
