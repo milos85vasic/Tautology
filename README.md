@@ -59,3 +59,16 @@ expression = expression(
 result = expression.evaluate()
 Assert.assertTrue(result)
 ```
+
+## Negation
+
+!(a > b)
+```
+expression = expression(
+        a > b,
+        Operator.NOT()
+)
+result = expression.evaluate()
+Assert.assertTrue(result)
+```
+
