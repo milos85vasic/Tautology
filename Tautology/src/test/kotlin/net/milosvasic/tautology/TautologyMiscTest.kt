@@ -1,5 +1,6 @@
 package net.milosvasic.tautology
 
+import net.milosvasic.tautology.operator.Operator
 import org.junit.Assert
 import org.junit.Test
 
@@ -16,7 +17,24 @@ class TautologyMiscTest {
     fun testMisc() {
         var result = expression(a < b).evaluate()
         Assert.assertTrue(result)
+
         result = expression(b > c).evaluate()
+        Assert.assertFalse(result)
+
+        var expression = expression(
+                a > b,
+                Operator.OR(),
+                c > b
+        )
+        result = expression.evaluate()
+        Assert.assertTrue(result)
+
+        expression = expression(
+                a > b,
+                Operator.AND(),
+                c > b
+        )
+        result = expression.evaluate()
         Assert.assertFalse(result)
     }
 
