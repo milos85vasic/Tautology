@@ -47,11 +47,13 @@ class ExpressionsOperatorsAppendingTest {
         dataSets.forEachIndexed {
             index, (a, b, c, _) ->
             val expressions = expression(
-                    a == b,
-                    Operator.OR(),
-                    a == c,
-                    Operator.OR(),
-                    b == c,
+                    expression(
+                            a == b,
+                            Operator.OR(),
+                            a == c,
+                            Operator.OR(),
+                            b == c
+                    ),
                     expression(
                             a > c,
                             Operator.OR(),
@@ -61,13 +63,12 @@ class ExpressionsOperatorsAppendingTest {
 
             val expected = expectedResults[index]
             val result = tautology.evaluate(expressions)
-            logger.v("", "Result [ $result ]")
 
-//            if (expected) {
-//                Assert.assertTrue(result)
-//            } else {
-//                Assert.assertFalse(result)
-//            }
+            if (expected) {
+                Assert.assertTrue(result)
+            } else {
+                Assert.assertFalse(result)
+            }
         }
     }
 
