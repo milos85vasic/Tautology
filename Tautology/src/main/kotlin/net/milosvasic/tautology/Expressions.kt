@@ -5,7 +5,14 @@ import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.expression.builder.ExpressionBuilder
 import net.milosvasic.tautology.operator.Operator
 
-class Expressions(val items: List<Expression>)
+class Expressions(val items: List<Expression>) {
+
+    fun evaluate(): Boolean {
+        val tautology = Tautology()
+        return tautology.evaluate(this)
+    }
+
+}
 
 fun expression(vararg expressions: Any): Expressions {
     val builder = ExpressionBuilder()

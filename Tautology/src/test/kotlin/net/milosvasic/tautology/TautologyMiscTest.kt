@@ -1,6 +1,8 @@
 package net.milosvasic.tautology
 
+import org.junit.Assert
 import org.junit.Test
+
 
 class TautologyMiscTest {
 
@@ -11,8 +13,11 @@ class TautologyMiscTest {
     val e = 5
 
     @Test
-    fun testMisc(){
-
+    fun testMisc() {
+        var result = expression(a < b).evaluate()
+        Assert.assertTrue(result)
+        result = expression(b > c).evaluate()
+        Assert.assertFalse(result)
     }
 
 
