@@ -36,6 +36,22 @@ class TautologyMiscTest {
         )
         result = expression.evaluate()
         Assert.assertFalse(result)
+
+        expression = expression(
+                expression(
+                        a > b,
+                        Operator.AND(),
+                        c > b
+                ),
+                Operator.OR(),
+                expression(
+                        d > c,
+                        d > b,
+                        d > a
+                )
+        )
+        result = expression.evaluate()
+        Assert.assertTrue(result)
     }
 
 
