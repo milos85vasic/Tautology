@@ -125,6 +125,21 @@ class TautologyMiscTest {
         result = expression.evaluate()
         Assert.assertTrue(result)
 
+        expression = expression(
+                expression(
+                        a > b,
+                        Operator.NOT()
+                ),
+                expression(
+                        a > d,
+                        Operator.OR(),
+                        a > e
+                ),
+                Operator.NOT()
+        )
+        result = expression.evaluate()
+        Assert.assertTrue(result)
+
         // b > a && !(d < c && e < d) && !(c > e)
 //        expression = expression(
 //                b > a,

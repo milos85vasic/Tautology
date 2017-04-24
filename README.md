@@ -72,3 +72,21 @@ result = expression.evaluate()
 Assert.assertTrue(result)
 ```
 
+!(a > b) && !(a > b || a > e)
+```
+expression = expression(
+        expression(
+                a > b,
+                Operator.NOT()
+        ),
+        expression(
+                a > d,
+                Operator.OR(),
+                a > e
+        ),
+        Operator.NOT()
+)
+result = expression.evaluate()
+Assert.assertTrue(result)
+```
+
