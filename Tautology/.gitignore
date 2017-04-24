@@ -1,4 +1,3 @@
-# Git ignore for module ':Tautology'
 build/*
 credentials*.gradle
                 
