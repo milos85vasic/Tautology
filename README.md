@@ -90,3 +90,32 @@ result = expression.evaluate()
 Assert.assertTrue(result)
 ```
 
+## Complex example
+
+b > a && !(d < c && e < d) && !(c > e)
+```
+expression = expression(
+        b > a,
+        expression(
+                expression(
+                        d < c,
+                        e < d
+                ),
+                Operator.NOT()
+        ),
+        expression(
+                expression(
+                        a > e,
+                        Operator.OR(),
+                        a > b
+                ),
+                Operator.NOT()
+        ),
+        expression(
+                c > e,
+                Operator.NOT()
+        )
+)
+result = expression.evaluate()
+Assert.assertTrue(result)
+```
