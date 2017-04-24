@@ -119,3 +119,6 @@ expression = expression(
 result = expression.evaluate()
 Assert.assertTrue(result)
 ```
+
+# Tautology parser
+TBD.
