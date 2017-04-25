@@ -28,11 +28,11 @@ class TautologyParserTest {
     }
 
     val delegate = object : TautologyParserDelegate {
-        override fun getExpressionValue(key: String): ExpressionValue {
+        override fun getExpressionValue(key: String): ExpressionValue? {
             return when (key) {
                 TRUE_1, TRUE_2, TRUE_3 -> soTrue
                 NOT_TRUE_1, NOT_TRUE_2, NOT_TRUE_3 -> notTrue
-                else -> throw IllegalArgumentException("No expression for the key: $key")
+                else -> null
             }
         }
     }
@@ -69,6 +69,22 @@ class TautologyParserTest {
         expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && $TRUE_1")
         result = tautology.evaluate(expressions)
         Assert.assertTrue(result)
+
+        expressions = parser.parse("($NOT_TRUE_1 && !$NOT_TRUE_2) && $TRUE_1")
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && !$TRUE_1")
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && !$NOT_TRUE_2")
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$TRUE_1) && !$NOT_TRUE_2")
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
     }
 
 }

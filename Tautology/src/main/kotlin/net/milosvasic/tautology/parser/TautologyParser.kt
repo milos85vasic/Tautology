@@ -2,46 +2,87 @@ package net.milosvasic.tautology.parser
 
 
 import net.milosvasic.tautology.Expressions
+import net.milosvasic.tautology.Tautology
 import net.milosvasic.tautology.expression.BooleanExpression
+import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.expression.builder.ExpressionBuilder
 import net.milosvasic.tautology.operator.Operator
 import java.util.regex.Pattern
 
 class TautologyParser(val delegate: TautologyParserDelegate) {
 
+    private val tautology = Tautology()
     private val operatorOr = Operator.OR()
     private val operatorAnd = Operator.AND()
     private val operatorNot = Operator.NOT()
 
     fun parse(line: String): Expressions {
-        val builder = ExpressionBuilder()
+        val expressionMembers = mutableMapOf<String, ExpressionMember>()
+        val localDelegate = object : TautologyParserDelegate {
+            override fun getExpressionValue(key: String): ExpressionValue? {
+                var result = delegate.getExpressionValue(key)
+                if (result == null) {
+                    val expressionMember = expressionMembers[key]
+                    if (expressionMember != null) {
+                        result = object : ExpressionValue {
+                            override fun getValue(): Boolean {
+                                val expressions = parse(expressionMember.exprTrimmed)
+                                return tautology.evaluate(expressions)
+                            }
+                        }
+                    }
+                }
+                return result
+            }
+        }
 
+        var processedLine = line
+        val builder = ExpressionBuilder()
         val m = Pattern.compile("\\(([^)]+)\\)").matcher(line)
         while (m.find()) {
             val expr = m.group(0)
             val exprTrimmed = m.group(1)
-
+            val key = "${ExpressionMember.MEMBER_KEY}${expressionMembers.size}"
+            expressionMembers.put(key, ExpressionMember(expr, exprTrimmed))
+            processedLine = processedLine.replace(expr, key)
         }
 
-        line
+        processedLine
                 .split(operatorAnd.value)
                 .forEach {
                     element ->
                     var check = element.trim()
                     if (check.startsWith(operatorNot.value)) {
                         check = check.replace(operatorNot.value, "")
-                        builder.append(
-                                BooleanExpression(
-                                        delegate.getExpressionValue(check),
-                                        null,
-                                        operatorNot
-                                )
-                        )
+                        val result = localDelegate.getExpressionValue(check)
+                        if (result != null) {
+                            builder.append(
+                                    BooleanExpression(
+                                            result,
+                                            null,
+                                            operatorNot
+                                    )
+                            )
+                        } else {
+                            throw IllegalArgumentException("Could not resolve key '$check'")
+                        }
                     } else {
-                        builder.append(delegate.getExpressionValue(check))
+                        val result = localDelegate.getExpressionValue(check)
+                        if (result != null) {
+                            builder.append(result)
+                        } else {
+                            throw IllegalArgumentException("Could not resolve key '$check'")
+                        }
                     }
                 }
+
         return builder.build()
+    }
+
+    private data class ExpressionMember(val expr: String, val exprTrimmed: String) {
+        companion object {
+            val MEMBER_KEY = "MEMBER_"
+        }
     }
 
 //    fun evaluate(message: String): Boolean {
