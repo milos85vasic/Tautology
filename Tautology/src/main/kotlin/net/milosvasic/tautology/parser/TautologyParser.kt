@@ -7,26 +7,28 @@ import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.expression.builder.ExpressionBuilder
 import net.milosvasic.tautology.operator.Operator
-import java.util.regex.Pattern
+import net.milosvasic.tautology.separator.Separator
 
 class TautologyParser(val delegate: TautologyParserDelegate) {
 
+    private val MEMBER_KEY = "MEMBER_"
     private val tautology = Tautology()
     private val operatorOr = Operator.OR()
     private val operatorAnd = Operator.AND()
     private val operatorNot = Operator.NOT()
+    private val separatorOpen = Separator.OPEN()
+    private val separatorClose = Separator.CLOSE()
 
-    fun parse(line: String): Expressions {
-        val expressionMembers = mutableMapOf<String, ExpressionMember>()
+    fun parse(line: String, parserExpressionMembers: MutableMap<String, String> = mutableMapOf()): Expressions {
         val localDelegate = object : TautologyParserDelegate {
             override fun getExpressionValue(key: String): ExpressionValue? {
                 var result = delegate.getExpressionValue(key)
                 if (result == null) {
-                    val expressionMember = expressionMembers[key]
+                    val expressionMember = parserExpressionMembers[key]
                     if (expressionMember != null) {
                         result = object : ExpressionValue {
                             override fun getValue(): Boolean {
-                                val expressions = parse(expressionMember.exprTrimmed)
+                                val expressions = parse(expressionMember, parserExpressionMembers)
                                 return tautology.evaluate(expressions)
                             }
                         }
@@ -38,13 +40,51 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
 
         var processedLine = line
         val builder = ExpressionBuilder()
-        val m = Pattern.compile("\\(([^)]+)\\)").matcher(line)
-        while (m.find()) {
-            val expr = m.group(0)
-            val exprTrimmed = m.group(1)
-            val key = "${ExpressionMember.MEMBER_KEY}${expressionMembers.size}"
-            expressionMembers.put(key, ExpressionMember(expr, exprTrimmed))
-            processedLine = processedLine.replace(expr, key)
+
+        var opened = false
+        var openedCount = 0
+        val iterator = processedLine.iterator()
+        val localExpressionMemberBuilder = StringBuilder()
+        val localParserExpressionMembers = mutableListOf<String>()
+        while (iterator.hasNext()) {
+            val item = iterator.next()
+            when ("$item") {
+                separatorOpen.value -> {
+                    if (!opened) {
+                        opened = true
+                    } else {
+                        openedCount++
+                        localExpressionMemberBuilder.append(item)
+                    }
+                }
+                separatorClose.value -> {
+                    if (!opened) {
+                        throw IllegalStateException("Detected '${separatorClose.value}' before '${separatorOpen.value}'.")
+                    } else {
+                        if (openedCount > 0) {
+                            openedCount--
+                            localExpressionMemberBuilder.append(item)
+                        } else {
+                            opened = false
+                            localParserExpressionMembers.add(
+                                    localExpressionMemberBuilder.toString()
+                            )
+                        }
+                    }
+                }
+                else -> {
+                    if (opened) {
+                        localExpressionMemberBuilder.append(item)
+                    }
+                }
+            }
+        }
+
+        localParserExpressionMembers.forEach {
+            member ->
+            val key = "$MEMBER_KEY${parserExpressionMembers.size}"
+            parserExpressionMembers.put(key, member)
+            processedLine = processedLine.replace("($member)", key)
         }
 
         processedLine
@@ -77,12 +117,6 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                 }
 
         return builder.build()
-    }
-
-    private data class ExpressionMember(val expr: String, val exprTrimmed: String) {
-        companion object {
-            val MEMBER_KEY = "MEMBER_"
-        }
     }
 
 //    fun evaluate(message: String): Boolean {
