@@ -53,6 +53,10 @@ class TautologyParserTest {
         expressions = parser.parse("$TRUE_1 && $TRUE_2")
         result = tautology.evaluate(expressions)
         Assert.assertTrue(result)
+
+        expressions = parser.parse("$TRUE_1 && !$NOT_TRUE_1")
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
     }
 
 }
