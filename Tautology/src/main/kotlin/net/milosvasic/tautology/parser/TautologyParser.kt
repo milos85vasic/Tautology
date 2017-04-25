@@ -5,6 +5,7 @@ import net.milosvasic.tautology.Expressions
 import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.builder.ExpressionBuilder
 import net.milosvasic.tautology.operator.Operator
+import java.util.regex.Pattern
 
 class TautologyParser(val delegate: TautologyParserDelegate) {
 
@@ -14,6 +15,14 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
 
     fun parse(line: String): Expressions {
         val builder = ExpressionBuilder()
+
+        val m = Pattern.compile("\\(([^)]+)\\)").matcher(line)
+        while (m.find()) {
+            val expr = m.group(0)
+            val exprTrimmed = m.group(1)
+
+        }
+
         line
                 .split(operatorAnd.value)
                 .forEach {
