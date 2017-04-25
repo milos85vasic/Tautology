@@ -8,8 +8,12 @@ import org.junit.Test
 
 class TautologyParserTest {
 
-    val SO_TRUE = "SO_TRUE"
-    val NOT_SO_TRUE = "NOT_SO_TRUE"
+    val TRUE_1 = "TRUE_1"
+    val TRUE_2 = "TRUE_2"
+    val TRUE_3 = "TRUE_3"
+    val NOT_TRUE_1 = "NOT_TRUE_1"
+    val NOT_TRUE_2 = "NOT_TRUE_2"
+    val NOT_TRUE_3 = "NOT_TRUE_3"
 
     val soTrue = object : ExpressionValue {
         override fun getValue(): Boolean {
@@ -26,8 +30,8 @@ class TautologyParserTest {
     val delegate = object : TautologyParserDelegate {
         override fun getExpressionValue(key: String): ExpressionValue {
             return when (key) {
-                SO_TRUE -> soTrue
-                NOT_SO_TRUE -> notSoTrue
+                TRUE_1, TRUE_2, TRUE_3 -> soTrue
+                NOT_TRUE_1, NOT_TRUE_2, NOT_TRUE_3 -> notSoTrue
                 else -> throw IllegalArgumentException("No expression for the key: $key")
             }
         }
@@ -38,13 +42,17 @@ class TautologyParserTest {
 
     @Test
     fun testTautologyParser() {
-        var expressions = parser.parse(SO_TRUE)
+        var expressions = parser.parse(TRUE_1)
         var result = tautology.evaluate(expressions)
         Assert.assertTrue(result)
 
-        expressions = parser.parse(NOT_SO_TRUE)
+        expressions = parser.parse(NOT_TRUE_1)
         result = tautology.evaluate(expressions)
         Assert.assertFalse(result)
+
+        expressions = parser.parse("$TRUE_1 && $TRUE_2")
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
     }
 
 }
