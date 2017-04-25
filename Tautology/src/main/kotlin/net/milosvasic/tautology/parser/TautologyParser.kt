@@ -2,6 +2,7 @@ package net.milosvasic.tautology.parser
 
 
 import net.milosvasic.tautology.Expressions
+import net.milosvasic.tautology.expression.BooleanExpression
 import net.milosvasic.tautology.expression.builder.ExpressionBuilder
 import net.milosvasic.tautology.operator.Operator
 
@@ -20,8 +21,13 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                     var check = element.trim()
                     if (check.startsWith(operatorNot.value)) {
                         check = check.replace(operatorNot.value, "")
-                        builder.append(delegate.getExpressionValue(check))
-                        builder.append(operatorNot)
+                        builder.append(
+                                BooleanExpression(
+                                        delegate.getExpressionValue(check),
+                                        null,
+                                        operatorNot
+                                )
+                        )
                     } else {
                         builder.append(delegate.getExpressionValue(check))
                     }
