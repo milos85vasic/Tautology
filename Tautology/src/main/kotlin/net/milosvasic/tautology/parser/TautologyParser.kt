@@ -44,7 +44,7 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
         var opened = false
         var openedCount = 0
         val iterator = processedLine.iterator()
-        val localExpressionMemberBuilder = StringBuilder()
+        var localExpressionMemberBuilder = StringBuilder()
         val localParserExpressionMembers = mutableListOf<String>()
         while (iterator.hasNext()) {
             val item = iterator.next()
@@ -69,6 +69,7 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                             localParserExpressionMembers.add(
                                     localExpressionMemberBuilder.toString()
                             )
+                            localExpressionMemberBuilder = StringBuilder()
                         }
                     }
                 }

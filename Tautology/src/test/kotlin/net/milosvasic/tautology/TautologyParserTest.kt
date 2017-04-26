@@ -97,7 +97,6 @@ class TautologyParserTest {
         result = tautology.evaluate(expressions)
         Assert.assertFalse(result)
 
-        // TODO: Continue from this example.
         expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $TRUE_3)")
         Assert.assertTrue(expressions.items.size == 2)
         result = tautology.evaluate(expressions)
