@@ -117,15 +117,15 @@ class TautologyParserTest {
         result = tautology.evaluate(expressions)
         Assert.assertFalse(result)
 
-//        val expressions = parser.parse("((!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_3 && !$NOT_TRUE_3)) && $TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        val result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
+        expressions = parser.parse("((!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_3 && !$NOT_TRUE_3)) && $TRUE_2")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
 
-//        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
+        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
     }
 
 }
