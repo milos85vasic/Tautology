@@ -162,6 +162,13 @@ class TautologyParserTest {
         result = tautology.evaluate(expressions)
         Assert.assertFalse(result)
 
+
+        // TODO: TIme to implement || support.
+//        expressions = parser.parse("$TRUE_1 || $TRUE_2")
+//        Assert.assertTrue(expressions.items.size == 1)
+//        result = tautology.evaluate(expressions)
+//        Assert.assertFalse(result)
+
     }
 
 }
