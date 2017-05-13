@@ -92,6 +92,10 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                 .split(operatorAnd.value)
                 .forEach {
                     element ->
+
+                    // TODO: Remove this.
+                    println("Element $element")
+
                     var check = element.trim()
                     if (check.startsWith(operatorNot.value)) {
                         check = check.replace(operatorNot.value, "")
