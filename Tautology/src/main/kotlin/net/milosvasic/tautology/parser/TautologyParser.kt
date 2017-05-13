@@ -116,40 +116,47 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                             // TODO: Remove this.
                             println("Element $element")
 
-                            element
-                                    .split(operatorOr.value)
-                                    .forEach {
-                                        orElement ->
-                                        println("Sub element $orElement")
+                            val ors = element.split(operatorOr.value)
+                            ors.forEach {
+                                orElement ->
+                                println("Sub element $orElement")
 
-                                        var orCheck = orElement.trim()
-                                        if (orCheck.startsWith(operatorNot.value)) {
-                                            orCheck = orCheck.replace(operatorNot.value, "")
-                                            val orResult = localDelegate.getExpressionValue(orCheck)
-                                            if (orResult != null) {
-                                                builder.append(
-                                                        BooleanExpression(
-                                                                orResult,
-                                                                null,
-                                                                operatorNot
-                                                        )
+                                var orCheck = orElement.trim()
+                                if (orCheck.startsWith(operatorNot.value)) {
+                                    orCheck = orCheck.replace(operatorNot.value, "")
+                                    val orResult = localDelegate.getExpressionValue(orCheck)
+                                    if (orResult != null) {
+                                        builder.append(
+                                                BooleanExpression(
+                                                        orResult,
+                                                        null,
+                                                        operatorNot
                                                 )
-                                            } else {
-                                                throw IllegalArgumentException("Could not resolve key '$orCheck'")
-                                            }
-                                        } else {
-                                            val orResult = localDelegate.getExpressionValue(orCheck)
-                                            if (orResult != null) {
-                                                builder.append(orResult)
-                                            } else {
-                                                throw IllegalArgumentException("Could not resolve key '$orCheck'")
-                                            }
+                                        )
+                                        if (ors.indexOf(orElement) < ors.lastIndex) {
+                                            builder.append(operatorOr)
                                         }
+                                    } else {
+                                        throw IllegalArgumentException("Could not resolve key '$orCheck'")
                                     }
+                                } else {
+                                    val orResult = localDelegate.getExpressionValue(orCheck)
+                                    if (orResult != null) {
+                                        builder.append(orResult)
+                                        if (ors.indexOf(orElement) < ors.lastIndex) {
+                                            builder.append(operatorOr)
+                                        }
+                                    } else {
+                                        throw IllegalArgumentException("Could not resolve key '$orCheck'")
+                                    }
+                                }
+                            }
                         }
                     }
                 }
 
+        // TODO: Remove this.
+        print("Expression: $builder")
         return builder.build()
     }
 
