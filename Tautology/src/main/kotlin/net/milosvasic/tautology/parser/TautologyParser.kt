@@ -88,6 +88,9 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
             processedLine = processedLine.replace("($member)", key)
         }
 
+        // TODO: Remove this.
+        println("Elements - - - - - - - ")
+
         processedLine
                 .split(operatorAnd.value)
                 .forEach {

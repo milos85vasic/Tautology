@@ -163,10 +163,15 @@ class TautologyParserTest {
 //        result = tautology.evaluate(expressions)
 //        Assert.assertFalse(result)
 
-        val expressions = parser.parse("$TRUE_1 || $TRUE_2")
+        var expressions = parser.parse("$TRUE_1 || $TRUE_2")
         Assert.assertTrue(expressions.items.size == 1)
-        val result = tautology.evaluate(expressions)
+        var result = tautology.evaluate(expressions)
         Assert.assertFalse(result)
+
+//        expressions = parser.parse("($TRUE_1 || $TRUE_2) && ($TRUE_2 || $TRUE_3)")
+//        Assert.assertTrue(expressions.items.size == 2)
+//        result = tautology.evaluate(expressions)
+//        Assert.assertFalse(result)
 
     }
 
