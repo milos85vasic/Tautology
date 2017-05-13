@@ -164,13 +164,18 @@ class TautologyParserTest {
 //        Assert.assertFalse(result)
 
         var expressions = parser.parse("$TRUE_1 || $TRUE_2")
-        Assert.assertTrue(expressions.items.size == 1)
+        Assert.assertTrue(expressions.items.size == 2)
         var result = tautology.evaluate(expressions)
-        Assert.assertFalse(result)
+        Assert.assertTrue(result)
 
-//        expressions = parser.parse("($TRUE_1 || $TRUE_2) && ($TRUE_2 || $TRUE_3)")
+        expressions = parser.parse("$TRUE_1 || $NOT_TRUE_1")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+//        var expressions = parser.parse("($TRUE_1 || $TRUE_2) && ($TRUE_2 || $TRUE_3)")
 //        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
+//        var result = tautology.evaluate(expressions)
 //        Assert.assertFalse(result)
 
     }

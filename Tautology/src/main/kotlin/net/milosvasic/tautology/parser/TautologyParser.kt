@@ -88,17 +88,10 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
             processedLine = processedLine.replace("($member)", key)
         }
 
-        // TODO: Remove this.
-        println("Elements - - - - - - - ")
-
         processedLine
                 .split(operatorAnd.value)
                 .forEach {
                     element ->
-
-                    // TODO: Remove this.
-                    println("Element $element")
-
                     var check = element.trim()
                     if (check.startsWith(operatorNot.value)) {
                         check = check.replace(operatorNot.value, "")
@@ -119,7 +112,40 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                         if (result != null) {
                             builder.append(result)
                         } else {
-                            throw IllegalArgumentException("Could not resolve key '$check'")
+
+                            // TODO: Remove this.
+                            println("Element $element")
+
+                            element
+                                    .split(operatorOr.value)
+                                    .forEach {
+                                        orElement ->
+                                        println("Sub element $orElement")
+
+                                        var orCheck = orElement.trim()
+                                        if (orCheck.startsWith(operatorNot.value)) {
+                                            orCheck = orCheck.replace(operatorNot.value, "")
+                                            val orResult = localDelegate.getExpressionValue(orCheck)
+                                            if (orResult != null) {
+                                                builder.append(
+                                                        BooleanExpression(
+                                                                orResult,
+                                                                null,
+                                                                operatorNot
+                                                        )
+                                                )
+                                            } else {
+                                                throw IllegalArgumentException("Could not resolve key '$orCheck'")
+                                            }
+                                        } else {
+                                            val orResult = localDelegate.getExpressionValue(orCheck)
+                                            if (orResult != null) {
+                                                builder.append(orResult)
+                                            } else {
+                                                throw IllegalArgumentException("Could not resolve key '$orCheck'")
+                                            }
+                                        }
+                                    }
                         }
                     }
                 }
