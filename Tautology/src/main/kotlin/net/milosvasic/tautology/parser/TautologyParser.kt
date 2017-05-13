@@ -112,15 +112,9 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                         if (result != null) {
                             builder.append(result)
                         } else {
-
-                            // TODO: Remove this.
-                            println("Element $element")
-
                             val ors = element.split(operatorOr.value)
                             ors.forEach {
                                 orElement ->
-                                println("Sub element $orElement")
-
                                 var orCheck = orElement.trim()
                                 if (orCheck.startsWith(operatorNot.value)) {
                                     orCheck = orCheck.replace(operatorNot.value, "")
@@ -155,8 +149,6 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                     }
                 }
 
-        // TODO: Remove this.
-        print("Expression: $builder")
         return builder.build()
     }
 

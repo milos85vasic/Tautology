@@ -1,5 +1,6 @@
 package net.milosvasic.tautology
 
+import net.milosvasic.logger.SimpleLogger
 import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.parser.TautologyParser
 import net.milosvasic.tautology.parser.TautologyParserDelegate
@@ -42,146 +43,161 @@ class TautologyParserTest {
 
     @Test
     fun testTautologyParser() {
-        // TODO: Uncomment examples.
-//        var expressions = parser.parse(TRUE_1)
-//        Assert.assertTrue(expressions.items.size == 1)
-//        var result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse(NOT_TRUE_1)
-//        Assert.assertTrue(expressions.items.size == 1)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("$TRUE_1 && $TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("$TRUE_1 && !$NOT_TRUE_1")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("!$NOT_TRUE_1")
-//        Assert.assertTrue(expressions.items.size == 1)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("!$NOT_TRUE_1 && !$NOT_TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && $TRUE_1")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("($NOT_TRUE_1 && !$NOT_TRUE_2) && $TRUE_1")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && !$TRUE_1")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && !$NOT_TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("(!$NOT_TRUE_1 && !$TRUE_1) && !$NOT_TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $TRUE_3)")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $NOT_TRUE_3)")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $TRUE_3) && $TRUE_1")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $TRUE_3) && $NOT_TRUE_3")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("((!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_3 && !$NOT_TRUE_3)) && $TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("($TRUE_1 && ($NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && !$TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && $NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && $NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && !$TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 3)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-//
-//        expressions = parser.parse("((!$NOT_TRUE_2 && $TRUE_1) && !(!$TRUE_1 && $NOT_TRUE_3)) && $TRUE_3 && (!$NOT_TRUE_2 && $TRUE_2) && $TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 4)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("(($NOT_TRUE_2 && $TRUE_1) && !(!$TRUE_1 && $NOT_TRUE_3)) && $TRUE_3 && (!$NOT_TRUE_2 && $TRUE_2) && $TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 4)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
-
-
-
-
-
-//        var expressions = parser.parse("$TRUE_1 || $TRUE_2")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        var result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-
-        var expressions = parser.parse("$TRUE_1 || $NOT_TRUE_1")
-        Assert.assertTrue(expressions.items.size == 2)
+        var expressions = parser.parse(TRUE_1)
+        Assert.assertTrue(expressions.items.size == 1)
         var result = tautology.evaluate(expressions)
         Assert.assertTrue(result)
 
-//        var expressions = parser.parse("($TRUE_1 || $TRUE_2) && ($TRUE_2 || $TRUE_3)")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        var result = tautology.evaluate(expressions)
-//        Assert.assertFalse(result)
+        expressions = parser.parse(NOT_TRUE_1)
+        Assert.assertTrue(expressions.items.size == 1)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
 
+        expressions = parser.parse("$TRUE_1 && $TRUE_2")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("$TRUE_1 && !$NOT_TRUE_1")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("!$NOT_TRUE_1")
+        Assert.assertTrue(expressions.items.size == 1)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("!$NOT_TRUE_1 && !$NOT_TRUE_2")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && $TRUE_1")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("($NOT_TRUE_1 && !$NOT_TRUE_2) && $TRUE_1")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && !$TRUE_1")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && !$NOT_TRUE_2")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$TRUE_1) && !$NOT_TRUE_2")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $TRUE_3)")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $NOT_TRUE_3)")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $TRUE_3) && $TRUE_1")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("(!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_1 && $TRUE_2 && $TRUE_3) && $NOT_TRUE_3")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("((!$NOT_TRUE_1 && !$NOT_TRUE_2) && ($TRUE_3 && !$NOT_TRUE_3)) && $TRUE_2")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("($TRUE_1 && ($NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && !$TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && $NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && $TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && $NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("($TRUE_1 && (!$NOT_TRUE_1 && !$NOT_TRUE_2 && ($TRUE_1 && !$TRUE_2))) && !$NOT_TRUE_3 && ($TRUE_1 && $TRUE_2 && !$NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 3)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        expressions = parser.parse("((!$NOT_TRUE_2 && $TRUE_1) && !(!$TRUE_1 && $NOT_TRUE_3)) && $TRUE_3 && (!$NOT_TRUE_2 && $TRUE_2) && $TRUE_2")
+        Assert.assertTrue(expressions.items.size == 4)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("(($NOT_TRUE_2 && $TRUE_1) && !(!$TRUE_1 && $NOT_TRUE_3)) && $TRUE_3 && (!$NOT_TRUE_2 && $TRUE_2) && $TRUE_2")
+        Assert.assertTrue(expressions.items.size == 4)
+        result = tautology.evaluate(expressions)
+        Assert.assertFalse(result)
+
+        // ORs
+        expressions = parser.parse("$TRUE_1 || $TRUE_2")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("$TRUE_1 || $NOT_TRUE_1")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("($TRUE_1 || $TRUE_2) && ($TRUE_2 || $TRUE_3)")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("($TRUE_1 || $TRUE_2) || ($TRUE_2 || $TRUE_3)")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("($TRUE_1 || $TRUE_2) && !($NOT_TRUE_1 || $NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+//        expressions = parser.parse("(!$TRUE_1 || !$NOT_TRUE_2) && !($NOT_TRUE_1 || $NOT_TRUE_2)")
+//        Assert.assertTrue(expressions.items.size == 2)
+//        result = tautology.evaluate(expressions)
+//        Assert.assertTrue(result)
+//
+//        expressions = parser.parse("(!$TRUE_1 || $TRUE_2) && !($NOT_TRUE_1 || $NOT_TRUE_2)")
+//        Assert.assertTrue(expressions.items.size == 2)
+//        result = tautology.evaluate(expressions)
+//        Assert.assertTrue(result)
     }
 
 }
