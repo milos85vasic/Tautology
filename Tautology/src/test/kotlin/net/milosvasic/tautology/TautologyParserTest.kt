@@ -1,6 +1,5 @@
 package net.milosvasic.tautology
 
-import net.milosvasic.logger.SimpleLogger
 import net.milosvasic.tautology.expression.ExpressionValue
 import net.milosvasic.tautology.parser.TautologyParser
 import net.milosvasic.tautology.parser.TautologyParserDelegate
@@ -189,15 +188,15 @@ class TautologyParserTest {
         result = tautology.evaluate(expressions)
         Assert.assertTrue(result)
 
-//        expressions = parser.parse("(!$TRUE_1 || !$NOT_TRUE_2) && !($NOT_TRUE_1 || $NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
-//
-//        expressions = parser.parse("(!$TRUE_1 || $TRUE_2) && !($NOT_TRUE_1 || $NOT_TRUE_2)")
-//        Assert.assertTrue(expressions.items.size == 2)
-//        result = tautology.evaluate(expressions)
-//        Assert.assertTrue(result)
+        expressions = parser.parse("(!$TRUE_1 || !$NOT_TRUE_2) && !($NOT_TRUE_1 || $NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
+
+        expressions = parser.parse("(!$TRUE_1 || $TRUE_2) && !($NOT_TRUE_1 || $NOT_TRUE_2)")
+        Assert.assertTrue(expressions.items.size == 2)
+        result = tautology.evaluate(expressions)
+        Assert.assertTrue(result)
     }
 
 }

@@ -105,51 +105,55 @@ class TautologyParser(val delegate: TautologyParserDelegate) {
                                     )
                             )
                         } else {
-                            throw IllegalArgumentException("Could not resolve key '$check'")
+                            ors(element, localDelegate, builder)
                         }
                     } else {
                         val result = localDelegate.getExpressionValue(check)
                         if (result != null) {
                             builder.append(result)
                         } else {
-                            val ors = element.split(operatorOr.value)
-                            ors.forEach {
-                                orElement ->
-                                var orCheck = orElement.trim()
-                                if (orCheck.startsWith(operatorNot.value)) {
-                                    orCheck = orCheck.replace(operatorNot.value, "")
-                                    val orResult = localDelegate.getExpressionValue(orCheck)
-                                    if (orResult != null) {
-                                        builder.append(
-                                                BooleanExpression(
-                                                        orResult,
-                                                        null,
-                                                        operatorNot
-                                                )
-                                        )
-                                        if (ors.indexOf(orElement) < ors.lastIndex) {
-                                            builder.append(operatorOr)
-                                        }
-                                    } else {
-                                        throw IllegalArgumentException("Could not resolve key '$orCheck'")
-                                    }
-                                } else {
-                                    val orResult = localDelegate.getExpressionValue(orCheck)
-                                    if (orResult != null) {
-                                        builder.append(orResult)
-                                        if (ors.indexOf(orElement) < ors.lastIndex) {
-                                            builder.append(operatorOr)
-                                        }
-                                    } else {
-                                        throw IllegalArgumentException("Could not resolve key '$orCheck'")
-                                    }
-                                }
-                            }
+                            ors(element, localDelegate, builder)
                         }
                     }
                 }
 
         return builder.build()
+    }
+
+    private fun ors(element: String, localDelegate: TautologyParserDelegate, builder: ExpressionBuilder) {
+        val ors = element.split(operatorOr.value)
+        ors.forEach {
+            orElement ->
+            var orCheck = orElement.trim()
+            if (orCheck.startsWith(operatorNot.value)) {
+                orCheck = orCheck.replace(operatorNot.value, "")
+                val orResult = localDelegate.getExpressionValue(orCheck)
+                if (orResult != null) {
+                    builder.append(
+                            BooleanExpression(
+                                    orResult,
+                                    null,
+                                    operatorNot
+                            )
+                    )
+                    if (ors.indexOf(orElement) < ors.lastIndex) {
+                        builder.append(operatorOr)
+                    }
+                } else {
+                    throw IllegalArgumentException("Could not resolve key '$orCheck'")
+                }
+            } else {
+                val orResult = localDelegate.getExpressionValue(orCheck)
+                if (orResult != null) {
+                    builder.append(orResult)
+                    if (ors.indexOf(orElement) < ors.lastIndex) {
+                        builder.append(operatorOr)
+                    }
+                } else {
+                    throw IllegalArgumentException("Could not resolve key '$orCheck'")
+                }
+            }
+        }
     }
 
 }
