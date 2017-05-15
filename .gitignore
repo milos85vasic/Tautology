@@ -39,7 +39,6 @@ ultimate/tmp
 ultimate/workspace.xml
 ultimate/*.versionsBackup
 
-.idea/workspace.xml
 .idea/tasks.xml
 
 # Sensitive or high-churn files:
@@ -49,10 +48,6 @@ ultimate/*.versionsBackup
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
-
-# Gradle:
-.idea/gradle.xml
-.idea/libraries
 
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
@@ -108,3 +103,4 @@ Logs/*
 credentials*.gradle
 
 samples/*
+!Tautology/Releases/*jar
