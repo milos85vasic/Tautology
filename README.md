@@ -5,44 +5,44 @@ Library used for resolving simple logical problems.
 Tautology use is presented with the following examples:
 
 a < b
-```
-var result = expression(a < b).evaluate()
-Assert.assertTrue(result)
+```kotlin
+val result = expression(a < b).evaluate()
+// result == true
 ```
 
 a > b or c > b
-```
-var expression = expression(
+```kotlin
+val expression = expression(
         a > b,
         Operator.OR(),
         c > b
 )
-result = expression.evaluate()
-Assert.assertTrue(result)
+val result = expression.evaluate()
+// result == true
 ```
 
 a > b and c > b
-```
-expression = expression(
+```kotlin
+val expression = expression(
         a > b,
         Operator.AND(),
         c > b
 )
-result = expression.evaluate()
-Assert.assertFalse(result)
+val result = expression.evaluate()
+// result == false
 ```
 
 the same expression can be done like this:
-```
-expression = expression(
+```kotlin
+val expression = expression(
         a > b,
         c > b
 )
 ```
 
 (b > a) and (d > c and e > d) and (a > e or b > a) or c > e
-```
-expression = expression(
+```kotlin
+val expression = expression(
         b > a,
         expression(
                 d > c,
@@ -56,24 +56,24 @@ expression = expression(
         Operator.OR(),
         c > e
 )
-result = expression.evaluate()
-Assert.assertTrue(result)
+val result = expression.evaluate()
+// result == true
 ```
 
 ## Negation
 !(a > b)
-```
-expression = expression(
+```kotlin
+val expression = expression(
         a > b,
         Operator.NOT()
 )
-result = expression.evaluate()
-Assert.assertTrue(result)
+val result = expression.evaluate()
+// result == true
 ```
 
 !(a > b) and !(a > b or a > e)
-```
-expression = expression(
+```kotlin
+val expression = expression(
         expression(
                 a > b,
                 Operator.NOT()
@@ -85,14 +85,14 @@ expression = expression(
         ),
         Operator.NOT()
 )
-result = expression.evaluate()
-Assert.assertTrue(result)
+val result = expression.evaluate()
+// result == true
 ```
 
 ## Complex example
 b > a and !(d < c and e < d) and !(c > e)
-```
-expression = expression(
+```kotlin
+val expression = expression(
         b > a,
         expression(
                 expression(
@@ -114,14 +114,14 @@ expression = expression(
                 Operator.NOT()
         )
 )
-result = expression.evaluate()
-Assert.assertTrue(result)
+val result = expression.evaluate()
+// result == true
 ```
 
 # Tautology parser
 Used to parse tautology strings into expressions.
 
-See example:
+See example of use:
 ```kotlin
 // Some constants
 val TRUE_1 = "TRUE_1"
