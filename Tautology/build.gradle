@@ -22,8 +22,8 @@ groot.depend("net.milosvasic.logger", "Logger", "1.2.3")
 
 groot.kotlin.version = "1.1.2"
 
-final alpha = 2
-final beta = 0
+final alpha = 0
+final beta = 1
 final version = 1
 final secondaryVersion = 0
 final tertiaryVersion = 0
